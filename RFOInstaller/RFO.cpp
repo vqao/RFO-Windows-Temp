@@ -5,8 +5,10 @@
 
 int main(int argc, char* argv[]) {
 	std::string userIn;
-	std::cout << "Welcome to the RFO Installer/Updater!\nRFO is made, owned, and developed by Kaede and Expo\n\nType \"install\" and press enter to continue!\nType \"uninstall\" and press enter to uninstall :(\n\nMake sure RFO is closed before you continue\n\n";
+	std::cout << "Welcome to the RFO Installer/Updater!\nRFO is made, owned, and developed by Kaede and Expo\n\nType \"install\" and press enter to continue!\nType \"uninstall\" and press enter to uninstall :(\n\n";
 	std::cin >> userIn;
+
+    system("taskkill /f /im RFO.exe");
 
     std::string rootDir("C:\\Program Files (x86)\\RFO");
 
