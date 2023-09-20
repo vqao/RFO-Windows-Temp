@@ -1,5 +1,6 @@
-# RCO2
+# RFO
+Temp release, will have better version soon.
 
-# About RCO2
+Fork of RCO2, RCO2 was made by ME.
 
-RCO2 automatically tweaks FFlags to optimize your Roblox client.
+Applies fflags to optimize your Roblox client!
