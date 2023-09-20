@@ -258,7 +258,7 @@ void mainThread() {
 
 int main(int argc, char** argv) {
     //Preinit
-    SetConsoleTitle(L"Roblox Client Optimizer");
+    SetConsoleTitle(L"Roblox FFlag Optimizer");
 
     if (std::filesystem::exists("C:\\RClientOptimizer2") == true) {
         std::filesystem::remove_all("C:\\RClientOptimizer2");
