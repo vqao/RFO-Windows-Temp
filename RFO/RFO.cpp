@@ -114,7 +114,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 
 void printMainText() {
     system("cls");
-    std::cout << "Syntax FFlag Optimizer coded by Kaede and Expo\n\nRFO is currently: ";
+    std::cout << "Syntax FFlag Optimizer coded by Kaede, Expo\n\nRFO and duck is currently: ";
     if (isRfoEnabled) {
         SetConsoleTextAttribute(hConsole, 10);
         std::cout << "Enabled";
