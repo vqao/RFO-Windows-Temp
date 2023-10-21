@@ -1,8 +1,4 @@
-# RFO
-Temp release, will have better version soon.
-
-Fork of RCO2, RCO2 was made by ME.
+# probably doesn't work 😂🤣
+Fork of RFO which forked RCO2 which forked RCO
 
 Applies fflags to optimize your Syntax client!
-
-Releases can be found [here](https://github.com/rbxflags/RFO-Windows-Temp/releases)
