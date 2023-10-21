@@ -11,8 +11,8 @@ bool isConsoleHidden = false;
 bool isRfoEnabled = false;
 
 std::string rootDir("C:\\Program Files (x86)\\RFO");
-string robloxVersionFolder;
-string localRobloxVersionFolder;
+string syntaxVersionFolder;
+string localSyntaxVersionFolder;
 
 char* buf = nullptr;
 size_t sz = 0;
@@ -114,7 +114,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 
 void printMainText() {
     system("cls");
-    std::cout << "Roblox FFlag Optimizer coded by Kaede and Expo\n\nRFO is currently: ";
+    std::cout << "Syntax FFlag Optimizer coded by Kaede and Expo\n\nRFO is currently: ";
     if (isRfoEnabled) {
         SetConsoleTextAttribute(hConsole, 10);
         std::cout << "Enabled";
@@ -157,14 +157,14 @@ void mainThread() {
         }
 
         //Bit of error checking
-        std::string robloxVersionStr;
+        std::string syntaxVersionStr;
         CURL* req = curl_easy_init();
         CURLcode res;
-        curl_easy_setopt(req, CURLOPT_URL, "https://setup.rbxcdn.com/version"); // an actually secure version endpoint...
+        curl_easy_setopt(req, CURLOPT_URL, "https://setup.syntax.eco/version"); // an actually secure version endpoint...
         curl_easy_setopt(req, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2TLS); // add HTTP/2 support for speed gains
         curl_easy_setopt(req, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2); // force TLSv1.2 support as HTTP/2 requires it
         curl_easy_setopt(req, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(req, CURLOPT_WRITEDATA, &robloxVersionStr);
+        curl_easy_setopt(req, CURLOPT_WRITEDATA, &syntaxVersionStr);
         res = curl_easy_perform(req);
         if (res != CURLE_OK) {
             std::cout << "\nNETWORK ERROR | PLEASE CHECK YOUR INTERNET CONNECTION | TRYING AGAIN IN 30 SECONDS. | 0x5\n";
@@ -174,12 +174,12 @@ void mainThread() {
             continue;
         }
         curl_easy_cleanup(req);
-        if (std::filesystem::exists(robloxVersionFolder + "\\" + robloxVersionStr) == false) {
-            for (const auto& e : std::filesystem::directory_iterator(robloxVersionFolder)) {
+        if (std::filesystem::exists(syntaxVersionFolder + "\\" + syntaxVersionStr) == false) {
+            for (const auto& e : std::filesystem::directory_iterator(syntaxVersionFolder)) {
                 if (e.is_directory()) {
                     for (const auto& e2 : std::filesystem::directory_iterator(e)) {
                         if (e2.path().string().ends_with("COPYRIGHT.txt")) {
-                            robloxVersionStr = e.path().string().erase(0,robloxVersionFolder.length()+1);
+                            syntaxVersionStr = e.path().string().erase(0,syntaxVersionFolder.length()+1);
                             goto exitNest;
                         }
                     }
@@ -217,9 +217,9 @@ void mainThread() {
         }
         curl_easy_cleanup(req2);
 
-        if (storedFflagVersion != (latestFflagVersion + ' ') || std::filesystem::exists(robloxVersionFolder + "\\" + robloxVersionStr + "\\ClientSettings\\ClientAppSettings.json") == false) { //We need to do an update!!!!
-            if (std::filesystem::exists(robloxVersionFolder + "\\" + robloxVersionStr + "\\ClientSettings") == false) {
-                std::filesystem::create_directory(robloxVersionFolder + "\\" + robloxVersionStr + "\\ClientSettings");
+        if (storedFflagVersion != (latestFflagVersion + ' ') || std::filesystem::exists(syntaxVersionFolder + "\\" + syntaxVersionStr + "\\ClientSettings\\ClientAppSettings.json") == false) { //We need to do an update!!!!
+            if (std::filesystem::exists(syntaxVersionFolder + "\\" + syntaxVersionStr + "\\ClientSettings") == false) {
+                std::filesystem::create_directory(syntaxVersionFolder + "\\" + syntaxVersionStr + "\\ClientSettings");
             }
 
             std::string latestFflagList;
@@ -241,7 +241,7 @@ void mainThread() {
             curl_easy_cleanup(req3);
 
             std::ofstream fflagList;
-            fflagList.open(robloxVersionFolder + "\\" + robloxVersionStr + "\\ClientSettings\\ClientAppSettings.json");
+            fflagList.open(syntaxVersionFolder + "\\" + syntaxVersionStr + "\\ClientSettings\\ClientAppSettings.json");
             fflagList << latestFflagList;
             fflagList.close();
 
@@ -258,7 +258,7 @@ void mainThread() {
 
 int main(int argc, char** argv) {
     //Preinit
-    SetConsoleTitle(L"Roblox FFlag Optimizer");
+    SetConsoleTitle(L"Syntax FFlag Optimizer");
 
     if (std::filesystem::exists("C:\\RClientOptimizer2") == true) {
         std::filesystem::remove_all("C:\\RClientOptimizer2");
@@ -270,8 +270,8 @@ int main(int argc, char** argv) {
         return 11;
     }
 
-    localRobloxVersionFolder = buf + string("\\Roblox\\Versions");
-    robloxVersionFolder = string("C:\\Program Files (x86)\\Roblox\\Versions");
+    localSyntaxVersionFolder = buf + string("\\Syntax\\Versions");
+    syntaxVersionFolder = string("C:\\Program Files (x86)\\Syntax\\Versions");
     free(buf);
 
     if (std::filesystem::exists(rootDir) == false) {
@@ -383,20 +383,20 @@ int main(int argc, char** argv) {
 
     skipUpdate:
 
-    if (std::filesystem::exists(robloxVersionFolder) == true && std::filesystem::exists(localRobloxVersionFolder) == true) {
-        std::cout << "Detected two Roblox installs at once, please delete either " + robloxVersionFolder + " or " + localRobloxVersionFolder;
+    if (std::filesystem::exists(syntaxVersionFolder) == true && std::filesystem::exists(localSyntaxVersionFolder) == true) {
+        std::cout << "Detected two Syntax installs at once, please delete either " + syntaxVersionFolder + " or " + localSyntaxVersionFolder;
         std::cin.get();
         return 30;
     }
 
-    if (std::filesystem::exists(robloxVersionFolder) == false && std::filesystem::exists(localRobloxVersionFolder) == false) {
-        std::cout << "Roblox not found. Please reinstall Roblox | 0x3\n";
+    if (std::filesystem::exists(syntaxVersionFolder) == false && std::filesystem::exists(localSyntaxVersionFolder) == false) {
+        std::cout << "Syntax not found. Please reinstall Syntax | 0x3\n";
         std::cin.get();
         return 3;
     }
 
-    if (std::filesystem::exists(robloxVersionFolder) == false) {
-        robloxVersionFolder = localRobloxVersionFolder;
+    if (std::filesystem::exists(syntaxVersionFolder) == false) {
+        syntaxVersionFolder = localSyntaxVersionFolder;
     }
 
 
@@ -455,22 +455,22 @@ int main(int argc, char** argv) {
         }
         else {
             isEnabledFile << "f";
-            std::string robloxVersionStr;
+            std::string syntaxVersionStr;
             CURL* req = curl_easy_init();
             CURLcode res;
-            curl_easy_setopt(req, CURLOPT_URL, "https://setup.rbxcdn.com/version"); // an actually secure version endpoint...
+            curl_easy_setopt(req, CURLOPT_URL, "https://setup.syntax.eco/version"); // an actually secure version endpoint...
             curl_easy_setopt(req, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2TLS); // add HTTP/2 support for speed gains
             curl_easy_setopt(req, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2); // force TLSv1.2 support as HTTP/2 requires it
             curl_easy_setopt(req, CURLOPT_WRITEFUNCTION, WriteCallback);
-            curl_easy_setopt(req, CURLOPT_WRITEDATA, &robloxVersionStr);
+            curl_easy_setopt(req, CURLOPT_WRITEDATA, &syntaxVersionStr);
             res = curl_easy_perform(req);
             if (res != CURLE_OK) {
-                if (std::filesystem::exists(robloxVersionFolder) == true)
-                    std::cout << "\nNETWORK ERROR | FAILED TO REMOVE FFLAG LIST, DELETE MANUALLY AT " + robloxVersionFolder + "\\current-roblox-version\\ClientSettings\\ClientAppSettings.json | 0x9\n";
+                if (std::filesystem::exists(syntaxVersionFolder) == true)
+                    std::cout << "\nNETWORK ERROR | FAILED TO REMOVE FFLAG LIST, DELETE MANUALLY AT " + syntaxVersionFolder + "\\current-syntax-version\\ClientSettings\\ClientAppSettings.json | 0x9\n";
             }
             curl_easy_cleanup(req);
-            if (std::filesystem::exists(robloxVersionFolder + "\\" + robloxVersionStr + "\\ClientSettings\\ClientAppSettings.json") == true) {
-                remove((robloxVersionFolder + "\\" + robloxVersionStr + "\\ClientSettings\\ClientAppSettings.json").c_str());
+            if (std::filesystem::exists(syntaxVersionFolder + "\\" + syntaxVersionStr + "\\ClientSettings\\ClientAppSettings.json") == true) {
+                remove((syntaxVersionFolder + "\\" + syntaxVersionStr + "\\ClientSettings\\ClientAppSettings.json").c_str());
             }
         }
         isEnabledFile.close();
